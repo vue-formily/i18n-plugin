@@ -1,5 +1,5 @@
 name: 🐞 Bug Report
-description: Report a bug for vue-formily
+description: Report a bug for i18n-plugin
 title: '<title>'
 body:
   - type: markdown
@@ -35,10 +35,19 @@ body:
     validations:
       required: true
   - type: dropdown
+    id: vue_formily_version
+    attributes:
+      label: Vue Formily Version
+      description: Vue Formily version
+      options:
+        - 1.x
+    validations:
+      required: true
+  - type: dropdown
     id: version
     attributes:
       label: Version
-      description: vue-formily version
+      description: I18n Plugin version
       options:
         - 1.x
     validations:
