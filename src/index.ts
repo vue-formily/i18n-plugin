@@ -20,8 +20,7 @@ let _activeLocale = 'en-US';
 const _locales: Record<string, Locale> = {};
 
 export default {
-  name: 'i18n',
-  switchLocale(locale: string = _activeLocale) {
+  switchLocale(locale: string) {
     if (!_locales[locale]) {
       throw new Error(`${locale} does not exist.`);
     }
@@ -39,26 +38,28 @@ export default {
   getLocale(locale: string) {
     return _locales[locale];
   },
-  translate(
-    key: string,
-    data?: Record<string, any> | Record<string, any>[],
-    { locale = _activeLocale }: { locale?: string } = {}
-  ) {
-    const loc = _locales[locale] || {};
+  translate(key: string, data?: Record<string, any> | Record<string, any>[], options: { locale?: string } = {}) {
+    let locale = options.locale;
+
+    if (isPlainObject(data) && (data as any).formType === 'field') {
+      const { i18n = {} } = (data as any).options || {};
+      locale = i18n.locale;
+    }
+
+    const loc = _locales[locale || _activeLocale] || {};
 
     const format = get(key, loc.resource);
 
     return stringFormat.format(format !== undefined ? format : key, flatArray([data, loc.localize]));
   },
-  install(Objeto: any, options: I18nOptions) {
-    this.options = { ...this.options, ...options };
+  install(this: any, Objeto: any, options: I18nOptions) {
+    this.options = options;
     const { locales = [], locale = _activeLocale } = this.options;
 
-    locales.forEach(locale => this.addLocale(locale));
+    locales.forEach((locale: Locale) => this.addLocale(locale));
 
     this.switchLocale(locale);
 
     Objeto.prototype.$i18n = this;
-  },
-  options: {} as I18nOptions
+  }
 };
