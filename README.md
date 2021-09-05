@@ -11,6 +11,15 @@ Localization plugin for [**vue-formily**](https://vue-formily.netlify.app).
 - [📚 &nbsp; Documentation](https://vue-formily.netlify.app/plugins/i18n)
 
 ## Installation
+### NPM
+```sh
+# install with yarn
+yarn add @vue-formily/i18n
+
+# install with npm
+npm install @vue-formily/i18n --save
+```
+
 ### CDN
 You can use **i18n** plugin with a script tag and a CDN, import the library like this:
 
@@ -28,15 +37,6 @@ If you are using native ES Modules, there is also an ES Modules compatible build
 </script>
 ```
 
-### NPM
-```sh
-# install with yarn
-yarn add @vue-formily/i18n
-
-# install with npm
-npm install @vue-formily/i18n --save
-```
-
 ### Set Up
 
 ```typescript
@@ -44,14 +44,23 @@ import Vue from 'vue';
 import VueFormily from '@vue-formily/formily';
 import i18n from '@vue-formily/i18n';
 
-// Use this
-Vue.use(VueFormily, {
-  plugins: [i18n]
-});
-
-// Or this
-VueFormily.plug(i18n);
+VueFormily.plug(i18n, {} as I18nOptions);
 Vue.use(VueFormily);
+```
+
+## Options
+```typescript
+type Resource = Record<string, string | string[]>;
+type Locale = {
+  code: string;
+  localize?: Record<string, any>;
+  resource?: Resource;
+};
+
+type I18nOptions = {
+  defaultLocale: string;
+  locales?: Locale[];
+}
 ```
 
 ## Basic Usage
@@ -106,7 +115,7 @@ i18n.translate('hi') // Bonjour, Jo.
 ```
 
 ### In Vue Formily
-In **vue-formily**, the **i18n** is using in the [Rule](/api/rule), [Field](/api/field), and [props](/api/element#properties) for all form elements. Here are some examples:
+In **vue-formily**, the **i18n** is used in the [Rule](https://vue-formily.netlify.app/api/rule), [Field](https://vue-formily.netlify.app/api/field), and [props](https://vue-formily.netlify.app/api/element#properties) for all form elements. Here are some examples:
 - [Localize Using Vue Formily I18n](https://vue-formily.netlify.app/examples/localize#using-vue-formily-i18n)
 - [Localize Using External Library](https://vue-formily.netlify.app/examples/localize#using-external-library)
 
