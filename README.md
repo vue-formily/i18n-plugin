@@ -38,14 +38,32 @@ If you are using native ES Modules, there is also an ES Modules compatible build
 ```
 
 ### Set Up
-
+### Vue 3.x
 ```typescript
-import Vue from 'vue';
-import VueFormily from '@vue-formily/formily';
+import { createApp } from 'vue'
+import { createFormily } from '@vue-formily/formily';
 import i18n from '@vue-formily/i18n';
 
-VueFormily.plug(i18n, {} as I18nOptions);
-Vue.use(VueFormily);
+const formily = createFormily();
+
+formily.plug(i18n, {} as I18nOptions);
+
+const app = createApp(App)
+
+app.use(formily);
+```
+
+### Vue 2.x
+```typescript
+import Vue from 'vue';
+import { createFormily } from '@vue-formily/formily';
+import i18n from '@vue-formily/date-format';
+
+const formily = createFormily();
+
+formily.plug(i18n, {} as I18nOptions);
+
+Vue.use(formily);
 ```
 
 ## Options

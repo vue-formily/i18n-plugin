@@ -52,7 +52,7 @@ export default {
 
     return stringFormat.format(format !== undefined ? format : key, flatArray([data, loc.localize]));
   },
-  install(this: any, Objeto: any, options: I18nOptions) {
+  install(this: any, config: any, options: I18nOptions) {
     this.options = options;
     const { locales = [], locale = _activeLocale } = this.options;
 
@@ -60,6 +60,6 @@ export default {
 
     this.switchLocale(locale);
 
-    Objeto.prototype.$i18n = this;
+    config.plugs.i18n = this;
   }
 };

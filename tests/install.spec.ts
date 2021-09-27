@@ -1,13 +1,13 @@
 import { createLocalVue, mount } from '@vue/test-utils';
-import VueFormily from '@vue-formily/formily';
+import { createFormily } from '@vue-formily/formily';
 import i18n from '@/.';
 
 const mockFormatter = {
   format(format: any) {
     return format;
   },
-  install(Objeto: any) {
-    Objeto.prototype.$stringFormat = this;
+  install(config: any) {
+    config.plugs.stringFormat = this;
   }
 };
 
@@ -19,7 +19,9 @@ describe('Installation', () => {
   });
 
   it('Should install by vue-formily `plug` method successfully', async () => {
-    VueFormily.plug(i18n, {
+    const formily = createFormily();
+
+    formily.plug(i18n, {
       locales: [
         {
           code: 'en-US',
@@ -29,9 +31,9 @@ describe('Installation', () => {
         }
       ]
     });
-    VueFormily.plug(mockFormatter);
+    formily.plug(mockFormatter);
 
-    localVue.use(VueFormily);
+    localVue.use(formily);
 
     const wrapper = mount(
       {
