@@ -21,6 +21,43 @@ describe('Installation', () => {
   it('Should install by vue-formily `plug` method successfully', async () => {
     const formily = createFormily();
 
+    formily.plug(i18n);
+    formily.plug(mockFormatter);
+
+    localVue.use(formily);
+
+    const wrapper = mount(
+      {
+        template: '<div></div>'
+      },
+      {
+        localVue
+      }
+    );
+
+    const vm = wrapper.vm as any;
+
+    vm.$formily.addForm({
+      formId: 'test',
+      fields: [
+        {
+          formId: 'a',
+          type: 'string',
+          value: 'test',
+          format: 'hi',
+          on: {
+            validated(field: any) {
+              expect(field.formatted).toBe('hi');
+            }
+          }
+        }
+      ]
+    });
+  });
+
+  it('Should install by vue-formily `plug` method with locales successfully', async () => {
+    const formily = createFormily();
+
     formily.plug(i18n, {
       locales: [
         {

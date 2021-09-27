@@ -12,7 +12,7 @@ export type Locale = {
 };
 
 export type I18nOptions = {
-  locale: string;
+  locale?: string;
   locales?: Locale[];
 };
 
@@ -52,13 +52,15 @@ export default {
 
     return stringFormat.format(format !== undefined ? format : key, flatArray([data, loc.localize]));
   },
-  install(this: any, config: any, options: I18nOptions) {
+  install(this: any, config: any, options: I18nOptions = {}) {
     this.options = options;
     const { locales = [], locale = _activeLocale } = this.options;
 
     locales.forEach((locale: Locale) => this.addLocale(locale));
 
-    this.switchLocale(locale);
+    if (locales.length && locales[locale]) {
+      this.switchLocale(locale);
+    }
 
     config.plugs.i18n = this;
   }
